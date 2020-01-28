@@ -153,7 +153,7 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.HarpieFeatherDuster);
             AddExecutor(ExecutorType.Activate, CardId.MaxxC, G_activate);
             AddExecutor(ExecutorType.Activate, CardId.CalledByTheGrave, Called_activate);
-            AddExecutor(ExecutorType.Activate, CardId.AshBlossom, Hand_act_eff);
+            AddExecutor(ExecutorType.Activate, CardId.AshBlossom, DefaultAshBlossomAndJoyousSpring);
             AddExecutor(ExecutorType.Activate, CardId.EffectVeiler, DefaultBreakthroughSkill);
             AddExecutor(ExecutorType.Activate, CardId.Impermanence, Impermanence_activate);
             AddExecutor(ExecutorType.Activate, CardId.SalamangreatRoar, SolemnJudgment_activate);
@@ -1096,6 +1096,7 @@ namespace WindBot.Game.AI.Decks
         {
             if (Duel.Phase != DuelPhase.Main1) return false;
             if (Duel.Turn == 1) return false;
+            if (wasStallioActivated) return false;
 
             List<ClientCard> material_list = new List<ClientCard>();
             List<ClientCard> bot_monster = Bot.GetMonsters();
