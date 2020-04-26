@@ -49,17 +49,56 @@ namespace WindBot.Game.AI.Decks
             public const int Linguriboh = 24842059;
         }
 
+        List<int> AIdleRebornList = new List<int>
+        {
+            
+        };
+
+        List<int> AvariceList = new List<int>
+        {
+
+        };
+
         public IgnisterExecutor(GameAI ai, Duel duel)
             : base(ai, duel)
         {
             //Activate
+            AddExecutor(ExecutorType.Activate, CardId.Terraforming);
+            AddExecutor(ExecutorType.Activate, CardId.Foolishburialgoods, BurialGoodsEff);
             AddExecutor(ExecutorType.Activate, CardId.IgnisterAIland, IgnisterAIlandeff);
+            AddExecutor(ExecutorType.Activate, CardId.Potofdesires, DefaultPotOfDesires);
+            AddExecutor(ExecutorType.Activate, CardId.Calledbythegrave, DefaultCalledByTheGrave);
+            AddExecutor(ExecutorType.Activate, CardId.Potofavarice, AvariceEff);
 
+            AddExecutor(ExecutorType.Activate, CardId.AIdlereborn, AIdleRebornEff);
             //Default
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
         }
+        public override bool OnSelectHand()
+        {
+            return true;
+        }
         public bool IgnisterAIlandeff()
         {
+            return true;
+        }
+        private bool BurialGoodsEff()
+        {
+            if (Bot.HasInMonstersZone(CardId.Doyon))
+            {
+                AI.SelectCard(CardId.IgnisterAIland);
+                return true;
+            }
+            return false;
+        }
+        private bool AvariceEff()
+        {
+            AI.SelectCard(AvariceList);
+            return true;
+        }
+        private bool AIdleRebornEff()
+        {
+            AI.SelectCard(AIdleRebornList);
             return true;
         }
     }
