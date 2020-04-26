@@ -56,6 +56,13 @@ namespace WindBot.Game.AI.Decks
 
         List<int> AvariceList = new List<int>
         {
+            CardId.Linguriboh,
+            CardId.Splashmage,
+            CardId.Linkdisciple,
+            CardId.Cybersewicckid,
+            CardId.Updatejammer,
+            CardId.Ladydebug,
+            CardId.Balancerlord
 
         };
 
@@ -76,7 +83,7 @@ namespace WindBot.Game.AI.Decks
         }
         public override bool OnSelectHand()
         {
-            return true;
+            return false;
         }
         public bool IgnisterAIlandeff()
         {
