@@ -49,11 +49,6 @@ namespace WindBot.Game.AI.Decks
             public const int Linguriboh = 24842059;
         }
 
-        List<int> AIdleRebornList = new List<int>
-        {
-            
-        };
-
         List<int> AvariceList = new List<int>
         {
             CardId.Linguriboh,
@@ -70,13 +65,18 @@ namespace WindBot.Game.AI.Decks
             : base(ai, duel)
         {
             //Activate
+            AddExecutor(ExecutorType.Activate, CardId.IgnisterAIland, IgnisterAIlandEff);
+            AddExecutor(ExecutorType.Activate, CardId.IgnisterAIland, IgnisterAIlandActivate);
+            AddExecutor(ExecutorType.Summon, CardId.Balancerlord);
+            AddExecutor(ExecutorType.Activate, CardId.Balancerlord);
+            AddExecutor(ExecutorType.Summon, CardId.Pikari, PikariSummon);
+            AddExecutor(ExecutorType.Activate, CardId.Pikari, PikariEff);
+
             AddExecutor(ExecutorType.Activate, CardId.Terraforming);
             AddExecutor(ExecutorType.Activate, CardId.Foolishburialgoods, BurialGoodsEff);
-            AddExecutor(ExecutorType.Activate, CardId.IgnisterAIland, IgnisterAIlandeff);
             AddExecutor(ExecutorType.Activate, CardId.Potofdesires, DefaultPotOfDesires);
             AddExecutor(ExecutorType.Activate, CardId.Calledbythegrave, DefaultCalledByTheGrave);
             AddExecutor(ExecutorType.Activate, CardId.Potofavarice, AvariceEff);
-
             AddExecutor(ExecutorType.Activate, CardId.AIdlereborn, AIdleRebornEff);
             //Default
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
@@ -85,9 +85,21 @@ namespace WindBot.Game.AI.Decks
         {
             return false;
         }
-        public bool IgnisterAIlandeff()
+        public bool IgnisterAIlandActivate()
         {
-            return true;
+            if (Bot.HasInHand(CardId.IgnisterAIland))
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool IgnisterAIlandEff()
+        {
+            if (Bot.HasInMonstersZone(CardId.IgnisterAIland))
+            {
+                return true;
+            }
+            return false;
         }
         private bool BurialGoodsEff()
         {
@@ -105,8 +117,24 @@ namespace WindBot.Game.AI.Decks
         }
         private bool AIdleRebornEff()
         {
-            AI.SelectCard(AIdleRebornList);
             return true;
+        }
+        private bool PikariSummon()
+        {
+            return true;
+        }
+        private bool PikariEff()
+        {
+            if (Bot.HasInHandOrInMonstersZoneOrInGraveyard(CardId.IgnisterAIland))
+            {
+                AI.SelectCard(CardId.AIdlereborn);
+                return true;
+            }
+            else
+            {
+                AI.SelectCard(CardId.IgnisterAIland);
+                return true;
+            }
         }
     }
 }
