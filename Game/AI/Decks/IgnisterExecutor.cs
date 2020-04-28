@@ -71,14 +71,18 @@ namespace WindBot.Game.AI.Decks
             AddExecutor(ExecutorType.Activate, CardId.Balancerlord);
             AddExecutor(ExecutorType.Summon, CardId.Pikari, PikariSummon);
             AddExecutor(ExecutorType.Activate, CardId.Pikari, PikariEff);
+            AddExecutor(ExecutorType.Activate, CardId.Parallelexceed, ParallelEff);
+
+            AddExecutor(ExecutorType.Summon, CardId.Ladydebug);
+            AddExecutor(ExecutorType.Activate, CardId.Ladydebug, DebugEff);
 
             AddExecutor(ExecutorType.Activate, CardId.Terraforming);
             AddExecutor(ExecutorType.Activate, CardId.Foolishburialgoods, BurialGoodsEff);
             AddExecutor(ExecutorType.Activate, CardId.Potofdesires, DefaultPotOfDesires);
-            AddExecutor(ExecutorType.Activate, CardId.Calledbythegrave, DefaultCalledByTheGrave);
             AddExecutor(ExecutorType.Activate, CardId.Potofavarice, AvariceEff);
             AddExecutor(ExecutorType.Activate, CardId.AIdlereborn, AIdleRebornEff);
             //Default
+            AddExecutor(ExecutorType.Activate, CardId.Calledbythegrave, DefaultCalledByTheGrave);
             AddExecutor(ExecutorType.Repos, DefaultMonsterRepos);
         }
         public override bool OnSelectHand()
@@ -134,6 +138,27 @@ namespace WindBot.Game.AI.Decks
             {
                 AI.SelectCard(CardId.IgnisterAIland);
                 return true;
+            }
+        }
+        private bool ParallelEff()
+        {
+            return true;
+        }
+        private bool DebugEff()
+        {
+            if (Bot.HasInHand(CardId.Achichi))
+            {
+                AI.SelectCard(CardId.Bururu);
+                return true;
+            }
+            if (Bot.HasInHand(CardId.Bururu))
+            {
+                AI.SelectCard(CardId.Achichi);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
